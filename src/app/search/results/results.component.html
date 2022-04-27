@@ -1,0 +1,11 @@
+<!-- <app-item></app-item> -->
+<div class="row">
+  <div class="col" *ngIf="favourites; else noresults">
+      <p *ngFor="let item of (searchResults$ | async)" style="color: blue;">{{ item.name }}</p>
+  </div>
+  <ng-template #noresults>
+    <div class="col">
+      <p>No universities found.</p>
+    </div>
+  </ng-template>
+</div>

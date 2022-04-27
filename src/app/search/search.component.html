@@ -1,0 +1,25 @@
+<form #postForm="ngForm" (ngSubmit)="doPost(postForm.value)">
+  <div class="row">
+    <div class="col">
+      <p>Country:</p>
+      <input type="text" class="form-control" id="country" required ngModel name="country" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p>School name:</p>
+      <input type="text" class="form-control" id="name" required ngModel name="name" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button>Search</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p *ngFor="let item of (searchResults$ | async)" style="color: red;">{{ item.name }}</p>
+    </div>
+  </div>
+</form>
+<app-search-results></app-search-results>
