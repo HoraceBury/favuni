@@ -15,9 +15,6 @@ export class SearchResultsComponent implements OnInit {
   @Select(FavouritesState.getFavourites) favourites$: Observable<University[]>;
   @Select(FavouritesState.getSearchResults) searchResults$: Observable<University[]>;
 
-  favourites: University[] = [];
-  searchResults: University[] = [];
-
   constructor(private store: Store) {
   }
 
@@ -25,7 +22,6 @@ export class SearchResultsComponent implements OnInit {
   }
 
   changeCheckbox(ev: University) {
-    console.log(ev);
     if (ev.isFavourite) {
       this.store.dispatch(new Favourites.Add(ev));
     }

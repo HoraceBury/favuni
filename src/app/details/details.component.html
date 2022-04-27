@@ -3,8 +3,9 @@
     <p>My Favourites</p>
   </div>
 </div>
-<div class="row">
-  <div class="col">
-    <p>Item</p>
+<hr>
+<div class="row" *ngFor="let item of (favourites$ | async)" style="color: orange;">
+  <div class="col-sm-11">
+    {{ item.name }}
   </div>
 </div>
