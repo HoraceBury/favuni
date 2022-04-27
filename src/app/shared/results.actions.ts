@@ -6,7 +6,7 @@ export namespace Results {
   }
 
   export class Found {
-    static readonly type = '[Favourites] Found Universities';
+    static readonly type = '[Results] Found Universities';
     constructor(public universities: University[]) {}
   }
 }

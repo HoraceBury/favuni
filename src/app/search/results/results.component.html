@@ -15,3 +15,9 @@
     </div>
   </ng-template>
 </div>
+<hr>
+<div class="row" *ngFor="let item of (favourites$ | async)" style="color: orange;">
+  <div class="col-sm-11">
+    {{ item.name }}
+  </div>
+</div>

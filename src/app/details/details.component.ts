@@ -13,9 +13,19 @@ export class DetailsComponent implements OnInit {
   @Select(FavouritesState.getFavourites) favourites$: Observable<University[]>;
   @Select(FavouritesState.getSearchResults) searchResults$: Observable<University[]>;
 
+  displayItem: University;
+
   constructor() { }
+
+  public doClick(item) {
+    if (this.displayItem === item) {
+      this.displayItem = null;
+    }
+    else {
+      this.displayItem = item;
+    }
+  }
 
   ngOnInit(): void {
   }
-
 }

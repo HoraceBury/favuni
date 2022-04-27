@@ -1,11 +1,26 @@
 <div class="row">
   <div class="col">
-    <p>My Favourites</p>
+    <h3>My Favourites</h3>
   </div>
 </div>
 <hr>
 <div class="row" *ngFor="let item of (favourites$ | async)" style="color: orange;">
-  <div class="col-sm-11">
-    {{ item.name }}
+  <div class="col">
+    <a (click)="doClick(item)">{{ item.name }} - {{ item.country }}</a>
   </div>
+</div>
+<div *ngIf="(favourites$ | async)?.length === 0">
+  <div class="col">
+    <p>No universities favourited.</p>
+  </div>
+</div>
+<div *ngIf="displayItem">
+  <hr>
+  <h3>School Details:</h3>
+  <ul>
+    <li>Country: {{displayItem.country}}</li>
+    <li *ngIf="displayItem['state-province']">State: {{displayItem["state-province"]}}</li>
+    <li>School: {{displayItem.name}}</li>
+    <li>Alpha Code: {{displayItem.alpha_two_code}}</li>
+  </ul>
 </div>

@@ -19,7 +19,7 @@ export class UniversityService {
   private produceUniArr(respData: University[]) {
     const uniArr: University[] = [];
     respData.forEach(element => {
-      uniArr.push(new University(element['state-province'], element.country, element.name));
+      uniArr.push(new University(element['state-province'], element.country, element.name, element.web_pages, element.domains, element.alpha_two_code));
     });
     return uniArr;
   }

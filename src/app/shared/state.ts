@@ -5,6 +5,7 @@ import { Results } from "./results.actions";
 import { Favourites } from "./favourite.actions";
 import { FavouritesStateModel } from "./favourites-state.model";
 import { append, patch, removeItem } from '@ngxs/store/operators';
+import { Search } from "./search.actions";
 
 @State<FavouritesStateModel>({
   name: 'favouritesState',
@@ -46,6 +47,20 @@ export class FavouritesState {
     }))
   }
 
+  @Action(Search.Country)
+  Country(ctx: StateContext<FavouritesStateModel>, action: string) {
+    ctx.setState(patch({
+      country: action
+    }))
+  }
+
+  @Action(Search.SchoolName)
+  SchoolName(ctx: StateContext<FavouritesStateModel>, action: string) {
+    ctx.setState(patch({
+      schoolName: action
+    }))
+  }
+
 
   @Selector()
   static getFavourites(state: FavouritesStateModel) {
@@ -55,5 +70,15 @@ export class FavouritesState {
   @Selector()
   static getSearchResults(state: FavouritesStateModel) {
     return state.searchResults
+  }
+
+  @Selector()
+  static getCountry(state: FavouritesStateModel) {
+    return state.country
+  }
+
+  @Selector()
+  static getSchoolName(state: FavouritesStateModel) {
+    return state.schoolName
   }
 }
