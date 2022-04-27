@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Favourites } from 'src/app/shared/favourite.actions';
+import { Results } from 'src/app/shared/results.actions';
 import { FavouritesState } from 'src/app/shared/state';
 import { University } from 'src/app/shared/university.model';
 
@@ -16,15 +18,24 @@ export class SearchResultsComponent implements OnInit {
   favourites: University[] = [];
   searchResults: University[] = [];
 
-  constructor() {
-    // this.searchResults$.subscribe(results => {
-    //   this.searchResults = results;
-    //   console.log('found');
-    // })
+  constructor(private store: Store) {
   }
 
   ngOnInit(): void {
   }
+
+  changeCheckbox(ev: University) {
+    console.log(ev);
+    if (ev.isFavourite) {
+      this.store.dispatch(new Favourites.Add(ev));
+    }
+    else
+    {
+      this.store.dispatch(new Favourites.Remove(ev));
+    }
+  }
+
+
 
   ngOnDestroy() {
   }

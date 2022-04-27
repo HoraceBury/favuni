@@ -14,10 +14,7 @@ export class UniversityService {
 
   public getUniversities = (country: string, name: string) : Observable<University[]> => this.http
     .get<University[]>(`http://universities.hipolabs.com/search?country=${country}&name=${name}`)
-    .pipe(map(this.produceUniArr))
-    /*.subscribe(respData => {
-      console.log('Content:', respData);
-    })*/;
+    .pipe(map(this.produceUniArr));
 
   private produceUniArr(respData: University[]) {
     const uniArr: University[] = [];

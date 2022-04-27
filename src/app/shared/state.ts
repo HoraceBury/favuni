@@ -4,13 +4,15 @@ import { University } from "./university.model";
 import { Results } from "./results.actions";
 import { Favourites } from "./favourite.actions";
 import { FavouritesStateModel } from "./favourites-state.model";
-import { append, patch } from '@ngxs/store/operators';
+import { append, patch, removeItem } from '@ngxs/store/operators';
 
 @State<FavouritesStateModel>({
   name: 'favouritesState',
   defaults: {
     favourites: [],
-    searchResults: []
+    searchResults: [],
+    country: '',
+    schoolName: ''
   }
 })
 
@@ -24,9 +26,9 @@ export class FavouritesState {
   }
   
   @Action(Favourites.Remove)
-  Remove(ctx: StateContext<FavouritesStateModel>, action: Favourites.Remove) {
+  Remove(ctx: StateContext<FavouritesStateModel>, { university }: Favourites.Remove) {
     ctx.setState(patch({
-      favourites: [] as University[]
+      favourites: removeItem<University>(u => u === university)
     }))
   }
 

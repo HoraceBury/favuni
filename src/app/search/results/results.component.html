@@ -1,11 +1,23 @@
-<!-- <app-item></app-item> -->
 <div class="row">
-  <div class="col" *ngIf="favourites; else noresults">
-      <p *ngFor="let item of (searchResults$ | async)" style="color: blue;">{{ item.name }}</p>
+  <div *ngIf="(searchResults$ | async)?.length > 0; else noresults">
+    <div class="row" *ngFor="let item of (searchResults$ | async)" style="color: blue;">
+      <div class="col-sm-1">
+        <input type="checkbox" [(ngModel)]="item.isFavourite" (change)="changeCheckbox(item)">
+      </div>
+      <div class="col-sm-11">
+        {{ item.name }} - {{ item.country }}
+      </div>
+    </div>
   </div>
   <ng-template #noresults>
     <div class="col">
       <p>No universities found.</p>
     </div>
   </ng-template>
+  <hr>
+  <div class="row" *ngFor="let item of (favourites$ | async)" style="color: orange;">
+    <div class="col-sm-11">
+      {{ item.name }}
+    </div>
+  </div>
 </div>

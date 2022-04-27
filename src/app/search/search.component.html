@@ -16,10 +16,5 @@
       <button>Search</button>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <p *ngFor="let item of (searchResults$ | async)" style="color: red;">{{ item.name }}</p>
-    </div>
-  </div>
 </form>
 <app-search-results></app-search-results>

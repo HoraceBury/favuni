@@ -5,6 +5,8 @@ export class University {
   // public web_pages: string[];
   // public domains: string[];
   // public alpha_two_code: string;
+  
+  public isFavourite: boolean = false;
 
   constructor(state_province: string, country: string, name: string) {
     this["state-province"] = state_province;

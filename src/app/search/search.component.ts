@@ -16,20 +16,27 @@ export class SearchComponent implements OnInit {
   @Select(FavouritesState.getFavourites) favourites$: Observable<University[]>;
   @Select(FavouritesState.getSearchResults) searchResults$: Observable<University[]>;
 
-  unis: University[] = [];
+  favs: University[];
 
   constructor(private http: HttpClient, private universityService: UniversityService, private store: Store) {
   }
 
   ngOnInit(): void {
+    this.searchResults$.subscribe(res => {
+      this.favs = res;
+    })
   }
 
   doPost(postData: { country: string; name: string }): void {
-    this.universityService.getUniversities(postData.country, postData.name).subscribe(unis => {
-      this.unis = unis;
-
+    this.universityService.getUniversities(postData.country, postData.name)
+    .subscribe(unis => {
+      // unis.forEach(element => {
+      //   var result = this.favs.filter(obj => {
+      //     return obj.b === 6
+      //   })
+      //   element.isFavourite = this.favs.find()
+      // });
       this.store.dispatch(new Results.Found(unis));
-      console.log('Found unis: ', unis);
     });
   }
 }

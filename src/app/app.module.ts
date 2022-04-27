@@ -12,7 +12,6 @@ import { SearchComponent } from './search/search.component';
 import { ListComponent } from './list/list.component';
 import { DetailsComponent } from './details/details.component';
 import { SearchResultsComponent } from './search/results/results.component';
-import { ItemComponent } from './item/item.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,7 +24,6 @@ import { HttpClientModule } from '@angular/common/http';
     ListComponent,
     DetailsComponent,
     SearchResultsComponent,
-    ItemComponent,
     HomeComponent,
   ],
   imports: [
