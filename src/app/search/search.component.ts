@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FavouritesState } from '../shared/state';
 import { University } from '../shared/university.model';
 import { UniversityService } from '../shared/university.service';
@@ -49,14 +49,24 @@ export class SearchComponent implements OnInit {
   }
 
   isLoading: boolean = false;
+  loader: Subscription;
 
   doPost(postData: { country: string; name: string }): void {
     this.isLoading = true;
 
-    this.universityService.getUniversities(postData.country, postData.name)
-    .subscribe(unis => {
-      this.store.dispatch(new Results.Found(unis));
-      this.isLoading = false;
-    });
+    if (this.loader) {
+      this.loader.unsubscribe();
+      console.log('unsubscribed');
+    }
+
+    console.log('loading...');
+
+    this.loader = this.universityService
+      .getUniversities(postData.country, postData.name)
+      .subscribe(unis => {
+        console.log('loaded.');
+        this.store.dispatch(new Results.Found(unis));
+        this.isLoading = false;
+      });
   }
 }
