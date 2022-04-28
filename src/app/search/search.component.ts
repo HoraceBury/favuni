@@ -27,28 +27,39 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('SearchComponent.ngOnInit')
     this.searchResults$.subscribe(res => {
+      console.log('searchResults$.subscribe');
       this.favs = res;
-    });
-    this.country$.subscribe(c => {
-      this.country = c;
-    });
-    this.schoolName$.subscribe(n => {
-      this.schoolName = n;
     });
   }
 
-  doAutoPost(value) {
-    console.log(value,this.isLoading , this.country , this.schoolName);
+  autoChange(field: string, $event: string) {
+    switch (field) { 
+      case 'country': { 
+        this.country = $event;
+        break; 
+      } 
+      case 'name': { 
+        this.schoolName = $event;
+        break; 
+      }
+    } 
+    this.doAutoPost();
+  }
+
+  private doAutoPost() {
     if (!this.isLoading && this.country !== '' && this.schoolName !== '') {
+      // console.log('searching');
       this.doPost( { country: this.country, name: this.schoolName } );
     }
     else{
-      console.log('not searching');
+      // console.log('not searching');
     }
   }
 
   isLoading: boolean = false;
+
   loader: Subscription;
 
   doPost(postData: { country: string; name: string }): void {
@@ -65,6 +76,11 @@ export class SearchComponent implements OnInit {
       .getUniversities(postData.country, postData.name)
       .subscribe(unis => {
         console.log('loaded.');
+
+        unis.forEach(uni => {
+
+        })
+
         this.store.dispatch(new Results.Found(unis));
         this.isLoading = false;
       });

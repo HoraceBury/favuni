@@ -2,13 +2,13 @@
   <div class="row">
     <div class="col">
       <p>Country:</p>
-      <input type="text" class="form-control" id="country" required [ngModel]="(country$ | async)" name="country" (ngModelChange)="doAutoPost($event)" />
+      <input type="text" class="form-control" id="country" required [ngModel]="(country$ | async)" name="country" (ngModelChange)="autoChange('country',$event)" />
     </div>
   </div>
   <div class="row">
     <div class="col">
       <p>School name:</p>
-      <input type="text" class="form-control" id="name" required [ngModel]="(schoolName$ | async)" name="name" (ngModelChange)="doAutoPost($event)" />
+      <input type="text" class="form-control" id="name" required [ngModel]="(schoolName$ | async)" name="name" (ngModelChange)="autoChange('name',$event)" />
     </div>
   </div>
   <div class="row">
