@@ -30,21 +30,21 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('SearchComponent.ngOnInit')
-    
     this.favourites$.pipe(takeUntil(this.destroy$)).subscribe(res => {
-      console.log('favourites$.subscribe');
       this.favs = res;
     });
 
-    this.country$.subscribe(c => {
-      this.country = c;
-      console.log('init country', this.country);
-    }).unsubscribe();
+    oneTimeListeners();
 
-    this.schoolName$.subscribe(s => {
-      this.schoolName = s;
-    }).unsubscribe();
+    function oneTimeListeners() {
+      this.country$.subscribe((c: string) => {
+        this.country = c;
+      }).unsubscribe();
+
+      this.schoolName$.subscribe((s: string) => {
+        this.schoolName = s;
+      }).unsubscribe();
+    }
   }
 
   autoChange(field: string, $event: string): void {
@@ -91,9 +91,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     this.loader = this.universityService
       .getUniversities(postData.country, postData.name)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(unis => {
-        console.log('loaded.');
-
         unis.forEach(uni => {
           const filtered = this.favs.filter(f => f.name === uni.name && f.country === uni.country && f.alpha_two_code === uni.alpha_two_code);
           uni.isFavourite = filtered.length > 0;
@@ -105,6 +104,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('destroy');
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
