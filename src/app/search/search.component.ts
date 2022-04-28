@@ -34,17 +34,17 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.favs = res;
     });
 
-    oneTimeListeners();
+    this.oneTimeListeners();
+  }
 
-    function oneTimeListeners() {
-      this.country$.subscribe((c: string) => {
-        this.country = c;
-      }).unsubscribe();
+  private oneTimeListeners() {
+    this.country$.subscribe((c: string) => {
+      this.country = c;
+    }).unsubscribe();
 
-      this.schoolName$.subscribe((s: string) => {
-        this.schoolName = s;
-      }).unsubscribe();
-    }
+    this.schoolName$.subscribe((s: string) => {
+      this.schoolName = s;
+    }).unsubscribe();
   }
 
   autoChange(field: string, $event: string): void {
@@ -67,9 +67,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (!this.isLoading && this.country && this.country !== '' && this.schoolName && this.schoolName !== '') {
       this.doPost( { country: this.country, name: this.schoolName } );
     }
-    else{
-      // console.log('not searching');
-    }
   }
 
   isLoading: boolean = false;
@@ -80,14 +77,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     if (this.loader) {
       this.loader.unsubscribe();
-      console.log('unsubscribed');
     }
 
     if (!this.country && !this.schoolName) {
       return;
     }
-
-    console.log('loading...');
 
     this.loader = this.universityService
       .getUniversities(postData.country, postData.name)
@@ -104,7 +98,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('destroy');
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

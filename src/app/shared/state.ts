@@ -51,7 +51,6 @@ export class FavouritesState {
 
   @Action(Search.Country)
   Country(ctx: StateContext<FavouritesStateModel>, { country }: Search.Country) {
-    console.log('action: ', country);
     ctx.setState(patch({
       country: country
     }))
