@@ -20,21 +20,21 @@ export class SearchComponent implements OnInit {
   @Select(FavouritesState.getSchoolName) schoolName$: Observable<string>;
 
   favs: University[];
-  country: string;
-  schoolName: string;
+  country: string = '';
+  schoolName: string = '';
 
   constructor(private http: HttpClient, private universityService: UniversityService, private store: Store) {
   }
 
   ngOnInit(): void {
     console.log('SearchComponent.ngOnInit')
-    this.searchResults$.subscribe(res => {
-      console.log('searchResults$.subscribe');
+    this.favourites$.subscribe(res => {
+      console.log('favourites$.subscribe');
       this.favs = res;
     });
   }
 
-  autoChange(field: string, $event: string) {
+  autoChange(field: string, $event: string): void {
     switch (field) { 
       case 'country': { 
         this.country = $event;
@@ -48,9 +48,8 @@ export class SearchComponent implements OnInit {
     this.doAutoPost();
   }
 
-  private doAutoPost() {
-    if (!this.isLoading && this.country !== '' && this.schoolName !== '') {
-      // console.log('searching');
+  private doAutoPost(): void {
+    if (!this.isLoading && this.country && this.country !== '' && this.schoolName && this.schoolName !== '') {
       this.doPost( { country: this.country, name: this.schoolName } );
     }
     else{
@@ -59,7 +58,6 @@ export class SearchComponent implements OnInit {
   }
 
   isLoading: boolean = false;
-
   loader: Subscription;
 
   doPost(postData: { country: string; name: string }): void {
@@ -70,6 +68,10 @@ export class SearchComponent implements OnInit {
       console.log('unsubscribed');
     }
 
+    if (!this.country && !this.schoolName) {
+      return;
+    }
+
     console.log('loading...');
 
     this.loader = this.universityService
@@ -78,7 +80,8 @@ export class SearchComponent implements OnInit {
         console.log('loaded.');
 
         unis.forEach(uni => {
-
+          const filtered = this.favs.filter(f => f.name === uni.name && f.country === uni.country && f.alpha_two_code === uni.alpha_two_code);
+          uni.isFavourite = filtered.length > 0;
         })
 
         this.store.dispatch(new Results.Found(unis));
