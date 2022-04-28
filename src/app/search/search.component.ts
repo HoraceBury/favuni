@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { FavouritesState } from '../shared/state';
 import { University } from '../shared/university.model';
 import { UniversityService } from '../shared/university.service';
 import { Results } from '../shared/results.actions';
+import { takeUntil } from 'rxjs/operators';
 import { Search } from '../shared/search.actions';
 
 @Component({
@@ -13,11 +14,13 @@ import { Search } from '../shared/search.actions';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   @Select(FavouritesState.getFavourites) favourites$: Observable<University[]>;
   @Select(FavouritesState.getSearchResults) searchResults$: Observable<University[]>;
   @Select(FavouritesState.getCountry) country$: Observable<string>;
   @Select(FavouritesState.getSchoolName) schoolName$: Observable<string>;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   favs: University[];
   country: string = '';
@@ -28,20 +31,32 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('SearchComponent.ngOnInit')
-    this.favourites$.subscribe(res => {
+    
+    this.favourites$.pipe(takeUntil(this.destroy$)).subscribe(res => {
       console.log('favourites$.subscribe');
       this.favs = res;
     });
+
+    this.country$.subscribe(c => {
+      this.country = c;
+      console.log('init country', this.country);
+    }).unsubscribe();
+
+    this.schoolName$.subscribe(s => {
+      this.schoolName = s;
+    }).unsubscribe();
   }
 
   autoChange(field: string, $event: string): void {
     switch (field) { 
       case 'country': { 
         this.country = $event;
+        this.store.dispatch(new Search.Country(this.country));
         break; 
       } 
       case 'name': { 
         this.schoolName = $event;
+        this.store.dispatch(new Search.SchoolName(this.schoolName));
         break; 
       }
     } 
@@ -87,5 +102,10 @@ export class SearchComponent implements OnInit {
         this.store.dispatch(new Results.Found(unis));
         this.isLoading = false;
       });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

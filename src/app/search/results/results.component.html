@@ -1,6 +1,6 @@
 <div class="row">
   <div *ngIf="(searchResults$ | async)?.length > 0; else noresults">
-    <div class="row" *ngFor="let item of (searchResults$ | async)" style="color: blue;">
+    <div class="row" *ngFor="let item of (searchResults$ | async)">
       <div class="col-sm-1">
         <input type="checkbox" [(ngModel)]="item.isFavourite" (change)="changeCheckbox(item)">
       </div>

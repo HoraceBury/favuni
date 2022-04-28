@@ -33,6 +33,7 @@ export class FavouritesState {
     }))
   }
 
+
   @Action(Results.Found)
   Found(ctx: StateContext<FavouritesStateModel>, { universities }: Results.Found) {
     ctx.setState(patch({
@@ -47,17 +48,19 @@ export class FavouritesState {
     }))
   }
 
+
   @Action(Search.Country)
-  Country(ctx: StateContext<FavouritesStateModel>, action: string) {
+  Country(ctx: StateContext<FavouritesStateModel>, { country }: Search.Country) {
+    console.log('action: ', country);
     ctx.setState(patch({
-      country: action
+      country: country
     }))
   }
 
   @Action(Search.SchoolName)
-  SchoolName(ctx: StateContext<FavouritesStateModel>, action: string) {
+  SchoolName(ctx: StateContext<FavouritesStateModel>, { schoolName }: Search.SchoolName) {
     ctx.setState(patch({
-      schoolName: action
+      schoolName: schoolName
     }))
   }
 
