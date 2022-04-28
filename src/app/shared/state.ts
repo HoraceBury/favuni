@@ -29,7 +29,7 @@ export class FavouritesState {
   @Action(Favourites.Remove)
   Remove(ctx: StateContext<FavouritesStateModel>, { university }: Favourites.Remove) {
     ctx.setState(patch({
-      favourites: removeItem<University>(u => u === university)
+      favourites: removeItem<University>(f => f.name === university.name && f.country === university.country && f.alpha_two_code === university.alpha_two_code)
     }))
   }
 
