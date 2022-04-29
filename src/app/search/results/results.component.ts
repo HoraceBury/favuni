@@ -35,16 +35,4 @@ export class SearchResultsComponent implements OnInit {
       this.store.dispatch(new Favourites.Remove(ev));
     }
   }
-
-  public doClick(item) {
-    if (this.displayItem === item) {
-      this.displayItem = null;
-    }
-    else {
-      this.displayItem = item;
-    }
-  }
-
-  ngOnDestroy() {
-  }
 }

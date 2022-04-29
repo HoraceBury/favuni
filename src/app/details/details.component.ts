@@ -11,13 +11,14 @@ import { University } from '../shared/university.model';
 })
 export class DetailsComponent implements OnInit {
   @Select(FavouritesState.getFavourites) favourites$: Observable<University[]>;
-  @Select(FavouritesState.getSearchResults) searchResults$: Observable<University[]>;
 
   @Input() allowDetails: boolean = true;
 
   displayItem: University;
 
   constructor() { }
+
+  ngOnInit(): void { }
 
   public doClick(item) {
     if (this.displayItem === item) {
@@ -26,8 +27,5 @@ export class DetailsComponent implements OnInit {
     else {
       this.displayItem = item;
     }
-  }
-
-  ngOnInit(): void {
   }
 }
