@@ -4,9 +4,9 @@
   </div>
 </div>
 <hr>
-<div class="row" *ngFor="let item of (favourites$ | async)" style="color: orange;">
+<div class="row" *ngFor="let item of (favourites$ | async)">
   <div class="col">
-    <a (click)="doClick(item)">{{ item.name }} - {{ item.country }}</a>
+    <a (click)="doClick(item)" class="details-link">{{ item.name }} - {{ item.country }}</a>
   </div>
 </div>
 <div *ngIf="(favourites$ | async)?.length === 0">
@@ -14,7 +14,7 @@
     <p>No universities favourited.</p>
   </div>
 </div>
-<div *ngIf="displayItem">
+<div *ngIf="displayItem && allowDetails">
   <hr>
   <h3>School Details:</h3>
   <ul>

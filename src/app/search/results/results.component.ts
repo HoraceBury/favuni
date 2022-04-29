@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Favourites } from 'src/app/shared/favourite.actions';
@@ -15,6 +15,11 @@ export class SearchResultsComponent implements OnInit {
   @Select(FavouritesState.getFavourites) favourites$: Observable<University[]>;
   @Select(FavouritesState.getSearchResults) searchResults$: Observable<University[]>;
 
+  @Input() showAddRemove: boolean = true;
+  @Input() allowDetails: boolean = true;
+
+  displayItem: University;
+  
   constructor(private store: Store) {
   }
 
@@ -28,6 +33,15 @@ export class SearchResultsComponent implements OnInit {
     else
     {
       this.store.dispatch(new Favourites.Remove(ev));
+    }
+  }
+
+  public doClick(item) {
+    if (this.displayItem === item) {
+      this.displayItem = null;
+    }
+    else {
+      this.displayItem = item;
     }
   }
 

@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+.details-link {
+  color: orange;
+  text-decoration: none;
+}
+
+.details-link a:focus, a:hover {
+  color: orange;
+  text-decoration: none;
+}

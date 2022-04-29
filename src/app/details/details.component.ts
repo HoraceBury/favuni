@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { FavouritesState } from '../shared/state';
@@ -12,6 +12,8 @@ import { University } from '../shared/university.model';
 export class DetailsComponent implements OnInit {
   @Select(FavouritesState.getFavourites) favourites$: Observable<University[]>;
   @Select(FavouritesState.getSearchResults) searchResults$: Observable<University[]>;
+
+  @Input() allowDetails: boolean = true;
 
   displayItem: University;
 
