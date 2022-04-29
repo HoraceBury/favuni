@@ -6,7 +6,7 @@
   </div>
   <div class="row">
     <div class="col-xs-3">
-      <input type="text" class="form-control" id="country" required [ngModel]="(country$ | async)" name="country" (ngModelChange)="autoChange('country',$event)" />
+      <input #searchCountry type="text" class="form-control" id="country" required [ngModel]="(country$ | async)" name="country" (ngModelChange)="autoChange('country',$event)" />
     </div>
   </div>
   <div class="row col">&nbsp;</div>

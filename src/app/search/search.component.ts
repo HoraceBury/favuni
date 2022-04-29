@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { FavouritesState } from '../shared/state';
@@ -21,6 +21,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   @Select(FavouritesState.getSchoolName) schoolName$: Observable<string>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
+
+  @ViewChild('searchCountry') searchCountryElemRef: ElementRef;
 
   favs: University[];
   country: string = '';
@@ -45,6 +47,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.schoolName$.subscribe((s: string) => {
       this.schoolName = s;
     }).unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    this.searchCountryElemRef.nativeElement.focus();
   }
 
   autoChange(field: string, $event: string): void {
